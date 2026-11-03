@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<meta name="robots" content="noindex, nofollow">
-<title>Jobs — Morning Briefing</title>
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Jobs</title><style>
 :root{--bg:#0b0e1a;--panel:#141832;--panel-2:#171c3d;--border:#262b52;--text:#e7e9f5;--muted:#8b90b3;--accent:#8b5cf6;--accent2:#22d3ee;--good:#34d399;--warn:#f59e0b;--bad:#f43f5e}
 *{box-sizing:border-box}
 body{margin:0 auto;max-width:1500px;font-family:'Segoe UI',-apple-system,Arial,sans-serif;background:radial-gradient(ellipse at top left,#151a3a 0%,var(--bg) 55%);color:var(--text);padding:28px 32px 60px;line-height:1.4}
@@ -24,112 +16,201 @@ a{color:var(--accent2)}
 .kpi-label{color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600}
 .kpi-value{font-size:26px;font-weight:800;margin-top:8px;color:var(--accent2);line-height:1.1}
 .kpi-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.charts-row{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px;margin-bottom:28px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px 20px;min-width:0}
+.panel h3{margin:0 0 4px 0;font-size:14px;color:var(--text);font-weight:700}
+.panel-hint{font-size:10.5px;color:var(--muted);margin-bottom:10px}
+.chart-wrap{position:relative;height:230px}
+canvas{max-height:230px}
+.section-title{font-size:16px;font-weight:800;margin:26px 0 14px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.section-title .count-pill{font-size:11px;background:var(--panel-2);border:1px solid var(--border);padding:3px 10px;border-radius:999px;color:var(--muted);font-weight:500}
+.section-title .spacer{flex:1}
+.section-title .more{font-size:11px;font-weight:600;color:var(--accent2);text-decoration:none}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 .ecard{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;transition:border-color .15s,transform .15s}
 .ecard:hover{border-color:var(--accent);transform:translateY(-1px)}
 .ecard-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
 .chip{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.score-pill{font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;background:var(--panel-2);border:1px solid var(--border);color:var(--accent2);white-space:nowrap}
 .ecard-title{display:block;font-size:13px;font-weight:700;line-height:1.35;margin-bottom:6px;color:var(--text);text-decoration:none}
 .ecard-title:hover{color:var(--accent2);text-decoration:underline}
 .ecard-meta{font-size:10.5px;color:var(--muted);margin-bottom:8px;word-break:break-word}
-.ecard-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:10px}
+.ecard-snippet{font-size:11px;color:var(--muted);line-height:1.45;margin-bottom:10px;max-height:54px;overflow:hidden}
+.ecard-links{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.ecard-links a{font-size:10.5px;color:var(--accent2);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ecard-links a:hover{text-decoration:underline}
+.ecard-stats{display:flex;justify-content:space-between;border-top:1px dashed var(--border);border-bottom:1px dashed var(--border);padding:8px 0;margin:auto 0 10px}
+.ecard-stats>div{display:flex;flex-direction:column;align-items:center;min-width:0}
+.stat-label{font-size:9px;color:var(--muted);text-transform:uppercase}
+.stat-val{font-size:12px;font-weight:700;color:var(--text);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ecard-actions{display:flex;gap:8px;flex-wrap:wrap}
 .btn{display:inline-block;font-size:11px;font-weight:700;padding:5px 12px;border-radius:8px;border:1px solid var(--border);cursor:pointer;text-decoration:none;transition:opacity .15s,border-color .15s}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn.ghost{background:transparent;color:var(--muted)}
+.btn:hover{opacity:.88}
+.btn.ghost:hover{color:var(--text);border-color:var(--accent)}
+.kanban{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;overflow-x:auto;padding-bottom:6px}
+.kcol{background:var(--panel);border:1px solid var(--border);border-radius:12px;min-width:230px;display:flex;flex-direction:column;max-height:820px}
+.kcol-header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px 8px;border-radius:12px 12px 0 0}
+.kcol-title{font-weight:700;font-size:13px}
+.kcol-count{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px}
+.kcol-subtotal{font-size:11px;color:var(--muted);padding:0 14px 10px;border-bottom:1px solid var(--border)}
+.kcol-body{padding:10px;overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:10px}
+.kcol-empty{color:var(--muted);font-size:12px;text-align:center;padding:20px 0}
+.kcard{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:12px;transition:border-color .15s,transform .15s}
+.kcard:hover{border-color:var(--accent);transform:translateY(-1px)}
+.kcard-top{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px}
+.kcard-title{display:block;font-size:12.5px;font-weight:600;line-height:1.35;margin-bottom:6px;color:var(--text);text-decoration:none;word-break:break-word}
+.kcard-title:hover{color:var(--accent2);text-decoration:underline}
+.kcard-meta{font-size:10.5px;color:var(--muted);margin-bottom:8px;word-break:break-word}
+.kcard-notes-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#0b0e1a;background:var(--accent2);display:inline-block;padding:2px 8px;border-radius:4px;margin-bottom:5px}
+.kcard-notes{font-size:10.5px;color:var(--muted);font-style:italic;margin-bottom:8px;line-height:1.4;max-height:56px;overflow:hidden}
+.kcard-footer{font-size:10px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+.tag{font-size:9px;font-weight:700;padding:1px 7px;border-radius:6px;background:var(--panel);border:1px solid var(--border);color:var(--muted)}
+.filterbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.filterbar a{font-size:11px;font-weight:700;text-decoration:none;color:var(--muted);background:var(--panel);border:1px solid var(--border);padding:5px 11px;border-radius:999px}
+.filterbar a:hover{color:var(--text);border-color:var(--accent)}
+.limitations{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--warn);border-radius:10px;padding:14px 18px;font-size:12px;color:var(--muted);margin-bottom:24px}
+.limitations b{color:var(--warn)}
+.empty{color:var(--muted);font-size:12px;background:var(--panel);border:1px dashed var(--border);border-radius:10px;padding:18px;text-align:center}
 .foot{margin-top:34px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px}
 .foot a{color:var(--accent2);text-decoration:none}
-</style>
-</head>
-<body>
-<div class="header">
-<div><h1>&#127919; Jobs — Morning Briefing</h1><div class="sub">Job alerts and LinkedIn hiring mail &middot; local application agent</div></div>
-<div class="snapshot-pill">Updated 2026-11-03</div>
-</div>
-<nav class="topnav"><a href="index.html">Overview</a><a href="news.html">News</a><a href="jobs.html" class="active">Jobs</a><a href="raindrop.html">Raindrop</a></nav>
+@media (max-width:1400px){.charts-row{grid-template-columns:1fr 1fr}}
+@media (max-width:900px){.charts-row{grid-template-columns:1fr}.kanban{grid-template-columns:repeat(2,minmax(230px,1fr))}}
+@media (max-width:600px){body{padding:18px 14px 40px}.header h1{font-size:22px}.kpi-row{grid-template-columns:1fr 1fr}.card-grid{grid-template-columns:1fr}.kanban{grid-template-columns:1fr}}
 
-<div class="limitations"><b>Local pane.</b> Career-ops dashboard runs locally (loopback only). Click the card below to open the single-pane job tracker.</div>
+/* ---------------------------------------------------------------- Glass (iOS-style) - applied across all tabs */
 
-<div class="kpi-row">
-<div class="kpi-card"><div class="kpi-label">Agent</div><div class="kpi-value" style="color:#34d399">Active</div><div class="kpi-sub">career-ops v1.38.0</div></div>
-<div class="kpi-card"><div class="kpi-label">Dashboard URL</div><div class="kpi-value" style="color:#8b5cf6">localhost:3000</div><div class="kpi-sub">local-first, private</div></div>
-<div class="kpi-card"><div class="kpi-label">Data root</div><div class="kpi-value" style="color:#f59e0b">D:\career-ops-deploy</div><div class="kpi-sub">tracker + reports</div></div>
-</div>
+body.glass{max-width:1840px;min-height:100vh;background:radial-gradient(900px 620px at 8% -8%,rgba(122,174,240,.22),transparent 62%),radial-gradient(760px 520px at 96% 4%,rgba(139,92,246,.18),transparent 62%),radial-gradient(900px 700px at 48% 108%,rgba(34,211,238,.10),transparent 62%),linear-gradient(135deg,#0c0d12 0%,#11131a 52%,#0b0c11 100%);background-attachment:fixed;color:#f6f8fc;padding:18px 28px 48px}
+body.glass .header{position:sticky;top:12px;z-index:40;background:rgba(28,28,32,.72);border:1px solid rgba(255,255,255,.14);border-radius:28px;padding:16px 22px;box-shadow:inset 0 1px 1px rgba(255,255,255,.32),inset 0 -1px 1px rgba(255,255,255,.08),0 24px 48px -24px rgba(0,0,0,.8);backdrop-filter:blur(18px) saturate(1.65);-webkit-backdrop-filter:blur(18px) saturate(1.65);margin-bottom:14px}
+body.glass .header h1{font-size:clamp(24px,2.2vw,34px);letter-spacing:-.02em;font-weight:650}
+body.glass .header .sub{color:#c9d1de}
+body.glass .snapshot-pill{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:#a9cdfc;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+body.glass .topnav{background:rgba(32,32,36,.62);border:1px solid rgba(255,255,255,.13);border-radius:999px;padding:5px;width:fit-content;max-width:100%;overflow-x:auto;backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);box-shadow:inset 0 1px 1px rgba(255,255,255,.28),0 16px 32px -22px rgba(0,0,0,.8);margin-bottom:20px;scrollbar-width:none}
+body.glass .topnav::-webkit-scrollbar{display:none}
+body.glass .topnav a{background:transparent;border:0;color:#c9d1de;padding:9px 15px;border-radius:999px;font-size:12.5px}
+body.glass .topnav a:hover{background:rgba(255,255,255,.08);border:0;color:#f6f8fc}
+body.glass .topnav a.active{background:linear-gradient(180deg,#fff,#ffffffb8);color:#0b111c;box-shadow:inset 0 1px 1px #fff,inset 0 -2px 5px #fff9,0 8px 18px -8px rgba(0,0,0,.65)}
+body.glass .kpi-row{gap:14px}
+body.glass .kpi-card{background:radial-gradient(260px circle at 0% 0%,rgba(255,255,255,.10),transparent 70%),linear-gradient(172deg,rgba(255,255,255,.08),transparent 38%),rgba(28,28,32,.56);border:1px solid rgba(255,255,255,.13);border-radius:22px;box-shadow:inset 0 1px 1px rgba(255,255,255,.28),inset 0 -1px 1px rgba(255,255,255,.08),0 22px 44px -26px rgba(0,0,0,.9);backdrop-filter:blur(16px) saturate(1.55);-webkit-backdrop-filter:blur(16px) saturate(1.55)}
+body.glass .kpi-label{color:#9aa4b8;letter-spacing:.08em}
+body.glass .kpi-value{font-size:clamp(22px,2vw,30px);letter-spacing:-.02em}
+body.glass .kpi-sub{color:#9aa4b8}
+body.glass .panel{background:rgba(28,28,32,.56);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px 20px;min-width:0;backdrop-filter:blur(14px) saturate(1.5);-webkit-backdrop-filter:blur(14px) saturate(1.5)}
+body.glass .panel-hint{color:#9aa4b8}
+body.glass .chart-wrap{position:relative;height:230px}
+body.glass canvas{max-height:230px}
+body.glass .section-title{font-size:16px;font-weight:800;margin:26px 0 14px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+body.glass .section-title .count-pill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);color:#b9c3d6;padding:3px 10px;border-radius:999px;font-weight:500}
+body.glass .section-title .spacer{flex:1}
+body.glass .section-title .more{font-size:11px;font-weight:600;color:#a9cdfc;text-decoration:none}
+body.glass .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+body.glass .empty{color:#c9d1de;font-size:12px;background:rgba(28,28,32,.45);border:1px dashed rgba(255,255,255,.14);border-radius:10px;padding:18px;text-align:center}
+body.glass .ecard{background:radial-gradient(260px circle at 0% 0%,rgba(255,255,255,.10),transparent 70%),linear-gradient(172deg,rgba(255,255,255,.08),transparent 38%),rgba(28,28,32,.56);border:1px solid rgba(255,255,255,.13);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;transition:border-color .15s,transform .15s;backdrop-filter:blur(16px) saturate(1.55);-webkit-backdrop-filter:blur(16px) saturate(1.55)}
+body.glass .ecard:hover{border-color:rgba(139,92,246,.6);transform:translateY(-1px)}
+body.glass .ecard-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+body.glass .chip{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+body.glass .score-pill{font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;background:rgba(28,28,32,.5);border:1px solid rgba(255,255,255,.12);color:#a9cdfc;white-space:nowrap}
+body.glass .ecard-title{display:block;font-size:13px;font-weight:700;line-height:1.35;margin-bottom:6px;color:#f6f8fc;text-decoration:none;word-break:break-word}
+body.glass .ecard-title:hover{color:#a9cdfc;text-decoration:underline}
+body.glass .ecard-meta{font-size:10.5px;color:#9aa4b8;margin-bottom:8px;word-break:break-word}
+body.glass .ecard-snippet{font-size:11px;color:#c9d1de;line-height:1.45;margin-bottom:10px;max-height:54px;overflow:hidden}
+body.glass .ecard-links{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+body.glass .ecard-links a{font-size:10.5px;color:#a9cdfc;text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.glass .ecard-stats{display:flex;justify-content:space-between;border-top:1px dashed rgba(255,255,255,.14);border-bottom:1px dashed rgba(255,255,255,.14);padding:8px 0;margin:auto 0 10px}
+body.glass .ecard-stats>div{display:flex;flex-direction:column;align-items:center;min-width:0}
+body.glass .stat-label{font-size:9px;color:#9aa4b8;text-transform:uppercase}
+body.glass .stat-val{font-size:12px;font-weight:700;color:#f6f8fc;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.glass .ecard-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+body.glass .btn{display:inline-block;font-size:11px;font-weight:700;padding:5px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.18);cursor:pointer;text-decoration:none;transition:opacity .15s,border-color .15s;color:#f6f8fc;background:rgba(255,255,255,.06)}
+body.glass .btn.primary{background:#7aaef0;border-color:transparent;color:#071a33}
+body.glass .btn.ghost{background:transparent;color:#c9d1de}
+body.glass .btn:hover{opacity:.88}
+body.glass .btn.ghost:hover{color:#f6f8fc;border-color:rgba(122,174,240,.6)}
+body.glass .limitations{background:rgba(28,28,32,.5);border:1px solid rgba(255,255,255,.12);border-left:3px solid #7aaef0;border-radius:18px;color:#c9d1de;backdrop-filter:blur(14px) saturate(1.5);-webkit-backdrop-filter:blur(14px) saturate(1.5);margin-bottom:24px}
+body.glass .limitations b{color:#a9cdfc}
+body.glass .foot{margin-top:34px;font-size:11px;color:#9aa4b8;border-top:1px solid rgba(255,255,255,.09);padding-top:14px}
+body.glass .foot a{color:#a9cdfc}
+@media (max-width:760px){body.glass{padding:14px 14px 40px}body.glass .header{padding:14px 16px;border-radius:22px;top:8px}body.glass .topnav{width:100%}body.glass .kpi-row{grid-template-columns:1fr 1fr}body.glass .card-grid{grid-template-columns:1fr}body.glass .section-title{margin-top:20px}}
+@media (prefers-reduced-transparency:reduce){body.glass .header,body.glass .topnav,body.glass .kpi-card,body.glass .panel,body.glass .ecard,body.glass .btn{background:rgba(28,28,32,.92)!important;border-color:rgba(255,255,255,.18)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
 
-<div class="section-title">Application Agent &mdash; Single Pane</div>
-<div class="card-grid">
-
-<!-- NEW: Career-ops dashboard link -->
-<div class="ecard">
-<div class="ecard-top">
-  <span class="chip" style="background:#8b5cf622;color:#8b5cf6;border-color:#8b5cf655">Agent</span>
-  <span class="chip" style="background:#34d39922;color:#34d399;border-color:#34d39955">Live</span>
-</div>
-<b class="ecard-title">Career-ops Job Tracker (local dashboard)</b>
-<div class="ecard-meta">Local-first AI job search agent: scan portals, evaluate listings A-H, tailor CVs, track applications, generate PDFs and cover letters. Runs in any AI CLI (OpenCode, Claude Code, Codex, etc.).</div>
-<div class="ecard-actions">
-  <a class="btn primary" href="http://localhost:3000" target="_blank" rel="noopener">Open Dashboard</a>
-  <a class="btn ghost" href="https://github.com/career-ops-hq/career-ops" target="_blank" rel="noopener">Repo</a>
-</div>
-</div>
-
-<div class="ecard">
-<div class="ecard-top"><span class="chip" style="background:#22d3ee22;color:#22d3ee;border-color:#22d3ee55">Pipeline</span></div>
-<b class="ecard-title">Pipeline — Pending Job URLs</b>
-<div class="ecard-meta">Data: data/pipeline.md</div>
-<div class="ecard-actions">
-  <a class="btn primary" href="http://localhost:3000/pipeline" target="_blank" rel="noopener">View</a>
-</div>
-</div>
-
-<div class="ecard">
-<div class="ecard-top"><span class="chip" style="background:#8b5cf622;color:#8b5cf6;border-color:#8b5cf655">Tracker</span></div>
-<b class="ecard-title">Application Tracker</b>
-<div class="ecard-meta">Data: data/applications.md</div>
-<div class="ecard-actions">
-  <a class="btn primary" href="http://localhost:3000/tracker" target="_blank" rel="noopener">Open</a>
-</div>
-</div>
-
-<div class="ecard">
-<div class="ecard-top"><span class="chip" style="background:#f59e0b22;color:#f59e0b;border-color:#f59e0b55">Scan</span></div>
-<b class="ecard-title">Portal Scan</b>
-<div class="ecard-meta">Zero-token ATS portal scanner: Greenhouse, Lever, Ashby, Workday, iCIMS</div>
-<div class="ecard-actions">
-  <a class="btn primary" href="http://localhost:3000/scan" target="_blank" rel="noopener">Scan</a>
-</div>
-</div>
-
-</div>
-
-<div class="section-title">External Job Listings <span class="count-pill">3</span></div>
-<div class="card-grid">
-<div class="ecard">
-<div class="ecard-top"><span class="chip" style="background:#22d3ee22;color:#22d3ee;border-color:#22d3ee55">job</span><span class="score-pill">0.65</span></div>
-<b class="ecard-title">New jobs similar to Director, Solutions Engineering at NetApp</b>
-<div class="ecard-meta">2026-11-01</div>
-<div class="ecard-links">
-<a href="https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_jobs_viewed_job_reminder_01%3BoOBpAbtxTvWsfYMzek9gPQ%3D%3D" target="_blank" rel="noopener">LinkedIn feed</a>
-</div>
-<div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.65</span></div><div><span class="stat-label">Links</span><span class="stat-val">2</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-01</span></div></div>
-<div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%207a3fba2c6afadcbe&amp;body=id%3D7a3fba2c6afadcbe%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%207a3fba2c6afadcbe&amp;body=id%3D7a3fba2c6afadcbe%0Avote%3D0">Not relevant</a></div>
-</div>
-<div class="ecard">
-<div class="ecard-top"><span class="chip" style="background:#22d3ee22;color:#22d3ee;border-color:#22d3ee55">job</span><span class="score-pill">0.65</span></div>
-<b class="ecard-title">Power Systems Engineer job at Aurecon - Actively recruiting</b>
-<div class="ecard-meta">2026-11-01</div>
-<div class="ecard-links"><a href="https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_job_alert_digest_01%3BopyR0qgoQlSy6GBIHvaeBQ%3D%3D" target="_blank" rel="noopener">LinkedIn feed</a></div>
-<div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.65</span></div><div><span class="stat-label">Links</span><span class="stat-val">2</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-01</span></div></div>
-<div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%20be4bf6cda8da9a65&amp;body=id%3Dbe4bf6cda8da9a65%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%20be4bf6cda8da9a65&amp;body=id%3Dbe4bf6cda8da9a65%0Avote%3D0">Not relevant</a></div>
-</div>
-<div class="ecard">
-<div class="ecard-top"><span class="chip" style="background:#22d3ee22;color:#22d3ee;border-color:#22d3ee55">job</span><span class="score-pill">0.65</span></div>
-<b class="ecard-title">Nuix is hiring a Sales Operations Specialist</b>
-<div class="ecard-meta">2026-11-01</div>
-<div class="ecard-links"><a href="https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_job_alert_digest_01%3BMq7wPBC4Tlu7zSsOI0XHXw%3D%3D" target="_blank" rel="noopener">LinkedIn feed</a></div>
-<div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.65</span></div><div><span class="stat-label">Links</span><span class="stat-val">2</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-01</span></div></div>
-<div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%2000928f7eff84522d&amp;body=id%3D00928f7eff84522d%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%2000928f7eff84522d&amp;body=id%3D00928f7eff84522d%0Avote%3D0">Not relevant</a></div>
-</div>
-</div>
-
-<div class="foot">Local deployment: career-ops web UI running at <a href="http://localhost:3000">localhost:3000</a> &middot; Agent CLI: <a href="https://github.com/career-ops-hq/career-ops">career-ops</a> &middot; D-drive root: D:\career-ops-deploy</div>
-</body></html>
+/* ---------------------------------------------------------------- Raindrop glass board */
+body.rd-page{max-width:1840px;min-height:100vh;background:radial-gradient(900px 620px at 8% -8%,rgba(122,174,240,.22),transparent 62%),radial-gradient(760px 520px at 96% 4%,rgba(139,92,246,.18),transparent 62%),radial-gradient(900px 700px at 48% 108%,rgba(34,211,238,.10),transparent 62%),linear-gradient(135deg,#0c0d12 0%,#11131a 52%,#0b0c11 100%);background-attachment:fixed;color:#f6f8fc;padding:18px 28px 48px}
+body.rd-page .header{position:sticky;top:12px;z-index:40;background:rgba(28,28,32,.72);border:1px solid rgba(255,255,255,.14);border-radius:28px;padding:16px 22px;box-shadow:inset 0 1px 1px rgba(255,255,255,.32),inset 0 -1px 1px rgba(255,255,255,.08),0 24px 48px -24px rgba(0,0,0,.8);backdrop-filter:blur(18px) saturate(1.65);-webkit-backdrop-filter:blur(18px) saturate(1.65);margin-bottom:14px}
+body.rd-page .header h1{font-size:clamp(24px,2.2vw,34px);letter-spacing:-.02em;font-weight:650}
+body.rd-page .header .sub{color:#c9d1de}
+body.rd-page .snapshot-pill{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:#a9cdfc;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+body.rd-page .topnav{background:rgba(32,32,36,.62);border:1px solid rgba(255,255,255,.13);border-radius:999px;padding:5px;width:fit-content;max-width:100%;overflow-x:auto;backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);box-shadow:inset 0 1px 1px rgba(255,255,255,.28),0 16px 32px -22px rgba(0,0,0,.8);margin-bottom:20px;scrollbar-width:none}
+body.rd-page .topnav::-webkit-scrollbar{display:none}
+body.rd-page .topnav a{background:transparent;border:0;color:#c9d1de;padding:9px 15px;border-radius:999px;font-size:12.5px}
+body.rd-page .topnav a:hover{background:rgba(255,255,255,.08);border:0;color:#f6f8fc}
+body.rd-page .topnav a.active{background:linear-gradient(180deg,#fff,#ffffffb8);color:#0b111c;box-shadow:inset 0 1px 1px #fff,inset 0 -2px 5px #fff9,0 8px 18px -8px rgba(0,0,0,.65)}
+body.rd-page .kpi-row{gap:14px}
+body.rd-page .kpi-card{background:radial-gradient(260px circle at 0% 0%,rgba(255,255,255,.10),transparent 70%),linear-gradient(172deg,rgba(255,255,255,.08),transparent 38%),rgba(28,28,32,.56);border:1px solid rgba(255,255,255,.13);border-radius:22px;box-shadow:inset 0 1px 1px rgba(255,255,255,.28),inset 0 -1px 1px rgba(255,255,255,.08),0 22px 44px -26px rgba(0,0,0,.9);backdrop-filter:blur(16px) saturate(1.55);-webkit-backdrop-filter:blur(16px) saturate(1.55)}
+body.rd-page .kpi-label{color:#9aa4b8;letter-spacing:.08em}
+body.rd-page .kpi-value{font-size:clamp(22px,2vw,30px);letter-spacing:-.02em}
+body.rd-page .kpi-sub{color:#9aa4b8}
+body.rd-page .limitations{background:rgba(28,28,32,.5);border:1px solid rgba(255,255,255,.12);border-left:3px solid #7aaef0;border-radius:18px;color:#c9d1de;backdrop-filter:blur(14px) saturate(1.5);-webkit-backdrop-filter:blur(14px) saturate(1.5)}
+body.rd-page .limitations b{color:#a9cdfc}
+body.rd-page .rd-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 14px}
+body.rd-page .rd-seg{display:inline-flex;align-items:center;gap:2px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:999px;padding:4px;backdrop-filter:blur(14px) saturate(1.5);-webkit-backdrop-filter:blur(14px) saturate(1.5);box-shadow:inset 0 1px 1px rgba(255,255,255,.2)}
+body.rd-page .rd-seg__btn{border:0;background:transparent;color:#c9d1de;border-radius:999px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s,color .15s,box-shadow .15s}
+body.rd-page .rd-seg__btn:hover{background:rgba(255,255,255,.07);color:#f6f8fc}
+body.rd-page .rd-seg__btn[aria-pressed=true]{background:linear-gradient(180deg,#fff,#ffffffb8);color:#0b111c;box-shadow:inset 0 1px 1px #fff,inset 0 -2px 5px #fff9,0 8px 18px -8px rgba(0,0,0,.65)}
+body.rd-page .rd-count{font-size:12px;color:#9aa4b8}
+body.rd-page .filterbar{margin-bottom:14px;gap:7px}
+body.rd-page .filterbar a{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.11);color:#c9d1de;border-radius:999px;padding:6px 12px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+body.rd-page .filterbar a:hover{background:rgba(122,174,240,.16);border-color:rgba(122,174,240,.45);color:#f6f8fc}
+body.rd-page .kanban{display:flex;gap:14px;overflow-x:auto;padding:4px 4px 16px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
+body.rd-page .kanban::-webkit-scrollbar{height:8px}
+body.rd-page .kanban::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:999px}
+body.rd-page .kcol{width:300px;min-width:280px;max-width:320px;max-height:min(72vh,820px);min-height:360px;background:rgba(200,200,215,.075);border:1px solid rgba(255,255,255,.12);border-radius:26px;box-shadow:inset 0 1px 1px rgba(255,255,255,.22),inset 0 -1px 1px rgba(255,255,255,.06),0 26px 54px -34px rgba(0,0,0,.95);backdrop-filter:blur(14px) saturate(1.55);-webkit-backdrop-filter:blur(14px) saturate(1.55);scroll-snap-align:start;overflow:hidden}
+body.rd-page .kcol-header{background:transparent;border-bottom:1px solid rgba(255,255,255,.09);padding:14px 15px 10px;border-radius:0}
+body.rd-page .kcol-title{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:650;color:#f6f8fc}
+body.rd-page .kcol-dot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 0 2px rgba(255,255,255,.10),0 0 14px currentColor;flex:none}
+body.rd-page .kcol-count{font-size:10.5px;padding:3px 9px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.07)!important;color:#f6f8fc!important}
+body.rd-page .kcol-subtotal{font-size:10.5px;color:#9aa4b8;padding:8px 15px 10px;border-bottom:0}
+body.rd-page .kcol-body{padding:8px 9px 12px;gap:9px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.16) transparent}
+body.rd-page .kcol-body::-webkit-scrollbar{width:6px}
+body.rd-page .kcol-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:999px}
+body.rd-page .kcol-empty{color:#9aa4b8;font-size:11.5px;padding:24px 8px}
+body.rd-page .kcard{background:radial-gradient(220px circle at 0% 0%,rgba(255,255,255,.10),transparent 72%),linear-gradient(172deg,rgba(255,255,255,.075),transparent 40%),rgba(28,28,32,.62);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:11px 12px 10px;box-shadow:inset 0 1px 1px rgba(255,255,255,.28),inset 0 -2px 5px rgba(255,255,255,.06),0 12px 26px -18px rgba(0,0,0,.95);backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+body.rd-page .kcard:hover{transform:translateY(-2px);border-color:rgba(122,174,240,.45);box-shadow:inset 0 1px 1px rgba(255,255,255,.35),0 20px 38px -20px rgba(0,0,0,1)}
+body.rd-page .kcard-top{margin-bottom:7px}
+body.rd-page .chip{font-size:9.5px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);color:#c9d1de;letter-spacing:.01em}
+body.rd-page .rd-cover-wrap{margin:0 0 9px;border-radius:14px;overflow:hidden;aspect-ratio:16/9;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+body.rd-page .rd-cover{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+body.rd-page .kcard:hover .rd-cover{transform:scale(1.035)}
+body.rd-page .kcard-title{font-size:13px;font-weight:650;line-height:1.35;color:#f6f8fc;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:4px}
+body.rd-page .kcard-title:hover{color:#a9cdfc;text-decoration:none}
+body.rd-page .kcard-meta{font-size:10px;color:#9aa4b8;margin-bottom:7px;line-height:1.35;word-break:break-word}
+body.rd-page .kcard-notes-label{font-size:8.5px;letter-spacing:.07em;text-transform:uppercase;color:#a9cdfc;background:rgba(122,174,240,.14);border:1px solid rgba(122,174,240,.22);padding:2px 7px;border-radius:999px;margin-bottom:4px}
+body.rd-page .kcard-notes{font-size:10.5px;color:#c9d1de;font-style:normal;line-height:1.45;margin-bottom:7px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+body.rd-page .kcard-footer{font-size:9.5px;color:#9aa4b8;display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08);padding-top:7px;margin-top:1px}
+body.rd-page .tag{font-size:8.5px;font-weight:650;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);color:#b9c3d6}
+body.rd-page .rd-tags{display:flex;flex-wrap:wrap;gap:4px}
+body.rd-page .rd-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+body.rd-page .rd-action{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.055);color:#f6f8fc;border-radius:999px;padding:5px 10px;font-size:10px;font-weight:700;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+body.rd-page .rd-action:hover{background:rgba(122,174,240,.18);border-color:rgba(122,174,240,.45);text-decoration:none}
+body.rd-page .rd-action--primary{background:#7aaef0;color:#071a33;border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 6px 14px -8px rgba(122,174,240,.9)}
+body.rd-page .rd-action--primary:hover{background:#8dbcf6;color:#071a33}
+body.rd-page .rd-list{display:grid;gap:8px;padding:2px 2px 18px}
+body.rd-page [hidden]{display:none!important}
+body.rd-page .rd-row{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:12px;background:linear-gradient(172deg,rgba(255,255,255,.065),transparent 50%),rgba(28,28,32,.5);border:1px solid rgba(255,255,255,.11);border-radius:18px;padding:9px 12px;box-shadow:inset 0 1px 1px rgba(255,255,255,.2);backdrop-filter:blur(14px) saturate(1.5);-webkit-backdrop-filter:blur(14px) saturate(1.5);transition:border-color .15s,background .15s}
+body.rd-page .rd-row:hover{border-color:rgba(122,174,240,.4);background:rgba(255,255,255,.075)}
+body.rd-page .rd-row--public{grid-template-columns:minmax(0,1fr) auto}
+body.rd-page .rd-row__main{min-width:0}
+body.rd-page .rd-row__thumb{width:56px;height:44px;border-radius:11px;object-fit:cover;display:block;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+body.rd-page .rd-row__thumb--fallback{display:grid;place-items:center;font-weight:800;font-size:15px}
+body.rd-page .rd-row__title{display:block;font-size:12.5px;font-weight:650;color:#f6f8fc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.rd-page .rd-row__title:hover{color:#a9cdfc;text-decoration:none}
+body.rd-page .rd-row__meta{font-size:10px;color:#9aa4b8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.rd-page .rd-row__tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+body.rd-page .rd-row__side{display:flex;align-items:center;gap:7px}
+body.rd-page .rd-row__bucket{font-size:9px;font-weight:700;border-radius:999px;padding:3px 8px;white-space:nowrap;border:1px solid}
+body.rd-page .rd-empty{color:#9aa4b8;font-size:12px;background:rgba(28,28,32,.45);border:1px dashed rgba(255,255,255,.14);border-radius:18px;padding:22px;text-align:center}
+body.rd-page .foot{border-top:1px solid rgba(255,255,255,.09);color:#9aa4b8}
+body.rd-page .foot a{color:#a9cdfc}
+@media (max-width:760px){body.rd-page{padding:10px 12px 36px}body.rd-page .header{padding:14px 16px;border-radius:22px;top:8px}body.rd-page .topnav{width:100%}body.rd-page .kanban{gap:10px}body.rd-page .kcol{width:84vw;min-width:84vw;max-width:none;max-height:70vh}body.rd-page .rd-row{grid-template-columns:minmax(0,1fr) auto}body.rd-page .rd-row__thumb{display:none}body.rd-page .rd-toolbar{gap:8px}body.rd-page .rd-count{width:100%}}
+@media (prefers-reduced-transparency:reduce){body.rd-page .header,body.rd-page .topnav,body.rd-page .kpi-card,body.rd-page .kcol,body.rd-page .kcard,body.rd-page .rd-row{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(28,28,32,.96)!important}}
+</style></head><body class="glass"><div class="header"><div><h1>&#127919; LinkedIn + SEEK Careers</h1><div class="sub">Job alerts and LinkedIn hiring mail</div></div><div class="snapshot-pill">Public snapshot: 2026-11-03 11:20</div></div><nav class="topnav"><a href="index.html">Overview</a><a href="news.html">News</a><a href="jobs.html" class="active">Jobs</a><a href="raindrop.html">Raindrop</a></nav><div class="limitations"><b>Public copy.</b> Job listings only. No senders or snippets.</div><div class="kpi-row"><div class="kpi-card"><div class="kpi-label">Items</div><div class="kpi-value" style="color:#22d3ee">6</div><div class="kpi-sub">Job alerts and LinkedIn hiring mail</div></div><div class="kpi-card"><div class="kpi-label">Avg score</div><div class="kpi-value" style="color:#8b5cf6">0.55</div><div class="kpi-sub">relevance</div></div><div class="kpi-card"><div class="kpi-label">Sources</div><div class="kpi-value" style="color:#34d399">5</div><div class="kpi-sub">distinct</div></div></div><div class="section-title">All items<span class="count-pill">6</span><span class="spacer"></span></div><div class="card-grid"><div class="ecard"><div class="ecard-top"><span class="chip" style="background:#22d3ee22;color:#22d3ee;border-color:#22d3ee55">job</span><span class="score-pill">0.65</span></div><b class="ecard-title">Manager Modern Workplace [Very strong applicant] + 11 new jobs</b><div class="ecard-meta">2026-11-02</div><div class="ecard-links"><a href="https://email.s.seek.com.au/ss/o/u001.zVlJIHBfmgh8qTyO1BxWPw/4vd/Egy_ijadQduat-PKDPSxFA/ho.gif" target="_blank" rel="noopener">https://email.s.seek.com.au/ss/o/u001.zVlJIHBfmgh8qTyO1BxWPw/4vd/Egy_ijadQduat-P</a><a href="https://email" target="_blank" rel="noopener">https://email</a></div><div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.65</span></div><div><span class="stat-label">Links</span><span class="stat-val">2</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-02</span></div></div><div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%205b5a8bf253f62ab1&amp;body=id%3D5b5a8bf253f62ab1%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%205b5a8bf253f62ab1&amp;body=id%3D5b5a8bf253f62ab1%0Avote%3D0">Not relevant</a></div></div><div class="ecard"><div class="ecard-top"><span class="chip" style="background:#22d3ee22;color:#22d3ee;border-color:#22d3ee55">job</span><span class="score-pill">0.65</span></div><b class="ecard-title">Telesat Customer Solutions Engineer (Australia)</b><div class="ecard-meta">2026-11-02</div><div class="ecard-links"><a href="https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_job_alert_digest_01%3BY9Z2xMPVS62f8RnHkQlLBw%3D%3D&amp;amp;midToken=AQEOw5fz0E79Yw&amp;amp;midSig=3dJtmt0PS68Iw1&amp;amp;trk=eml-email_job_alert_digest_01-header-0-home_glimmer_static_badging_with_count&amp;amp;trkEmail=eml-email_job_alert_digest_01-header-0-home_glimmer_static_badging_with_count-null-mylsf~mvysbvvg~5e-null-null&amp;amp;eid=mylsf-mvysbvvg-5e&amp;amp;otpToken=Yjk0Y2M2OGRlZDZmNmU2MjBmNDc2NDU4NTkxNWJkNjFmMDQ0MGQ5MzYzNDdhYTZkY2M5NDhiYTgyNTBmZmVlYTU3YjBkOGNmZjRjMWIyMTYzNGE4NTc3OTQ0MmU3NGY0MmVjMTY1NjEwM2E4Yjk0MTM3OGEzZWY1MjQ0NmFmY2I2OWZjYjJiMTUxODEsMiwx" target="_blank" rel="noopener">https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_job_alert</a><a href="https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59" target="_blank" rel="noopener">https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59</a></div><div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.65</span></div><div><span class="stat-label">Links</span><span class="stat-val">2</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-02</span></div></div><div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%20e3ca7bcccc992b1a&amp;body=id%3De3ca7bcccc992b1a%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%20e3ca7bcccc992b1a&amp;body=id%3De3ca7bcccc992b1a%0Avote%3D0">Not relevant</a></div></div><div class="ecard"><div class="ecard-top"><span class="chip" style="background:#22d3ee22;color:#22d3ee;border-color:#22d3ee55">job</span><span class="score-pill">0.65</span></div><b class="ecard-title">Rubrik is hiring a Global Solutions Architect</b><div class="ecard-meta">2026-11-02</div><div class="ecard-links"><a href="https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_job_alert_digest_01%3BWrEHBX6LQom%2FUpR9YIPDkA%3D%3D&amp;amp;midToken=AQEOw5fz0E79Yw&amp;amp;midSig=2BXvgQ-Use8Iw1&amp;amp;trk=eml-email_job_alert_digest_01-header-0-home_glimmer_static_badging_with_count&amp;amp;trkEmail=eml-email_job_alert_digest_01-header-0-home_glimmer_static_badging_with_count-null-mylsf~mvyo1kmc~he-null-null&amp;amp;eid=mylsf-mvyo1kmc-he&amp;amp;otpToken=NjFlZTE3OGY2NzRjMzM2MTFiZDdjZjRmOWMxNGIzMGYwZDFiN2Y4ZmIxNGI5ZWRiNWY5MTJmNWNmMDE0MmYzNzBlYzk0ZWZmNDg4YzMzOTVmNjQ4OTJiMzJkYTg0OGE4NjRkNTUyMWVlMzc3ZDU1NmVkMWU5ODIzMTQyYmVmODVlOGVmNzNmMGIzNmUsMiwx" target="_blank" rel="noopener">https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_job_alert</a><a href="https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59" target="_blank" rel="noopener">https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59</a></div><div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.65</span></div><div><span class="stat-label">Links</span><span class="stat-val">2</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-02</span></div></div><div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%205bdb32c51f0e7888&amp;body=id%3D5bdb32c51f0e7888%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%205bdb32c51f0e7888&amp;body=id%3D5bdb32c51f0e7888%0Avote%3D0">Not relevant</a></div></div><div class="ecard"><div class="ecard-top"><span class="chip" style="background:#22d3ee22;color:#22d3ee;border-color:#22d3ee55">job</span><span class="score-pill">0.65</span></div><b class="ecard-title">Wiz is hiring for a Remote role</b><div class="ecard-meta">2026-11-02</div><div class="ecard-links"><a href="https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_jobs_facet_suggestions%3BMeXMoYwSS32p7%2FUlVR9jig%3D%3D&amp;amp;midToken=AQEOw5fz0E79Yw&amp;amp;midSig=1mFzypLuAb8Iw1&amp;amp;trk=eml-email_jobs_facet_suggestions-header-0-home_glimmer_static_badging_with_count&amp;amp;trkEmail=eml-email_jobs_facet_suggestions-header-0-home_glimmer_static_badging_with_count-null-mylsf~mvynxmlw~zy-null-null&amp;amp;eid=mylsf-mvynxmlw-zy&amp;amp;otpToken=ZThlNDRjNDliMWNmNjcwNGJiNzVhMTM1YTRmMGE1MTMzNmFhOGVhMmYxNzBjZWI4MmNmYTg2YThiNGE4NTIzYzU5Y2RmNzNiOGViN2Y4NjA0YzhjZGEwYzhlMmVjODBlOThiYjBjNzg2ZmMyYmNiMzIzYjU1YzQzMDFkNGQ3Yzg4ZWY2NDdjMjliMTksMiwx" target="_blank" rel="noopener">https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_jobs_face</a><a href="https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59" target="_blank" rel="noopener">https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59</a><a href="https://www.linke" target="_blank" rel="noopener">https://www.linke</a></div><div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.65</span></div><div><span class="stat-label">Links</span><span class="stat-val">3</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-02</span></div></div><div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%20a8b41c08877faea3&amp;body=id%3Da8b41c08877faea3%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%20a8b41c08877faea3&amp;body=id%3Da8b41c08877faea3%0Avote%3D0">Not relevant</a></div></div><div class="ecard"><div class="ecard-top"><span class="chip" style="background:#34d39922;color:#34d399;border-color:#34d39955">linkedin_bulk</span><span class="score-pill">0.40</span></div><b class="ecard-title">Every light on the dashboard can be green while the business has a bad day.</b><div class="ecard-meta">2026-11-02</div><div class="ecard-links"><a href="https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_series_follow_newsletter_02%3B5WhGkSOFSOyDmC6tAkF51A%3D%3D&amp;amp;midToken=AQEOw5fz0E79Yw&amp;amp;midSig=01WvYP35PL9Iw1&amp;amp;trk=eml-email_series_follow_newsletter_02-header-0-home_glimmer_static_badging_with_count&amp;amp;trkEmail=eml-email_series_follow_newsletter_02-header-0-home_glimmer_static_badging_with_count-null-mylsf~mvztiglk~iv-null-null&amp;amp;eid=mylsf-mvztiglk-iv" target="_blank" rel="noopener">https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_series_fo</a><a href="https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59" target="_blank" rel="noopener">https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59</a><a href="https://www.linkedin.com/comm/messaging/?lipi=urn%3Ali%3Apage%3Aemail_email_series_foll" target="_blank" rel="noopener">https://www.linkedin.com/comm/messaging/?lipi=urn%3Ali%3Apage%3Aemail_email_seri</a></div><div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.40</span></div><div><span class="stat-label">Links</span><span class="stat-val">3</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-02</span></div></div><div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%20049f47ce75747fd4&amp;body=id%3D049f47ce75747fd4%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%20049f47ce75747fd4&amp;body=id%3D049f47ce75747fd4%0Avote%3D0">Not relevant</a></div></div><div class="ecard"><div class="ecard-top"><span class="chip" style="background:#34d39922;color:#34d399;border-color:#34d39955">linkedin_bulk</span><span class="score-pill">0.30</span></div><b class="ecard-title">Last Month in Accounting, Accountech &amp; Finance - 2026 Edition #11</b><div class="ecard-meta">2026-11-02</div><div class="ecard-links"><a href="https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_series_follow_newsletter_02%3Bo%2BBx26GnQhGtq9AdCm3W7A%3D%3D&amp;amp;midToken=AQEOw5fz0E79Yw&amp;amp;midSig=2wky5GOLTB9sw1&amp;amp;trk=eml-email_series_follow_newsletter_02-header-0-home_glimmer_static_badging_with_count&amp;amp;trkEmail=eml-email_series_follow_newsletter_02-header-0-home_glimmer_static_badging_with_count-null-mylsf~mvzas223~v4-null-null&amp;amp;eid=mylsf-mvzas223-v4" target="_blank" rel="noopener">https://www.linkedin.com/comm/feed/?lipi=urn%3Ali%3Apage%3Aemail_email_series_fo</a><a href="https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59" target="_blank" rel="noopener">https://static.licdn.com/aero-v1/sc/h/2fp5x7ci191mxbdy1eynscn59</a><a href="https://www.linkedin.com/comm/messaging/?lipi=urn%3Ali%3Apage%3Aemail_email_series_follow_" target="_blank" rel="noopener">https://www.linkedin.com/comm/messaging/?lipi=urn%3Ali%3Apage%3Aemail_email_seri</a></div><div class="ecard-stats"><div><span class="stat-label">Score</span><span class="stat-val">0.30</span></div><div><span class="stat-label">Links</span><span class="stat-val">3</span></div><div><span class="stat-label">Date</span><span class="stat-val">2026-11-02</span></div></div><div class="ecard-actions"><a class="btn primary" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20relevant%20fc00ee826183b3f7&amp;body=id%3Dfc00ee826183b3f7%0Avote%3D1">Relevant</a><a class="btn ghost" href="https://github.com/whalexander822/digest-votes/issues/new?labels=vote&amp;title=vote%20not%20fc00ee826183b3f7&amp;body=id%3Dfc00ee826183b3f7%0Avote%3D0">Not relevant</a></div></div></div><div class="foot">Generated 2026-11-03 11:20 &middot; public brief &middot; no private mail on this page</div></body></html>
